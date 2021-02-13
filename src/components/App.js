@@ -5,25 +5,38 @@ class Timer extends Component {
     super(props);
     this.state = { time: 0, x: 0, y: 0 };
     this.moveBall = this.moveBall.bind(this);
+    this.setup = this.setup.bind(this);
   }
 
-  moveBall  (){
+  setup(event){
+    switch(event.keyCode){
+      case 37: this.setState({x : this.state.x - 5,});
+        break;
+      case 38: this.setState({y : this.state.y - 5,});
+        break;
+      case 39: this.setState({x : this.state.x + 5,});
+        break;
+      case 40: this.setState({y : this.state.y + 5,});
+        break;
+    }
+    if(this.state.x === 250 && this.state.y === 250){
+      document.removeEventListener("keydown", this.setup);
+      // this.interval();
+    }
+  }
+  interval(clearSetInterval){
+    clearInterval(clearSetInterval);
+  }
+
+  moveBall(){
     if(this.state.time === 0){
-      const clearSetInterval = setInterval(()=>{this.setState({time : this.state.time + 1})}, 1000);
-      document.addEventListener("keydown", (event)=>{
-        switch(event.keyCode){
-          case 37: this.setState({x : this.state.x - 5,});
-            break;
-          case 38: this.setState({y : this.state.y - 5,});
-            break;
-          case 39: this.setState({x : this.state.x + 5,});
-            break;
-          case 40: this.setState({y : this.state.y + 5,});
-            break;
-        }
-        if(this.state.x === 250 && this.state.y === 250)
-          clearInterval(clearSetInterval);
-      });
+      // this.interval();
+      var clearSetInterval = setInterval(()=>{
+        this.setState({time : this.state.time + 1})
+        if(this.state.x === 250 && this.state.y === 250){
+          this.interval(clearSetInterval);
+      }}, 1000);
+      document.addEventListener("keydown", this.setup);
     }
   };
 
