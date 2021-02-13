@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
 import "../styles/App.css";
+var clearSetInterval = 0;
 class Timer extends Component {
   constructor(props) {
     super(props);
@@ -7,7 +8,7 @@ class Timer extends Component {
     this.moveBall = this.moveBall.bind(this);
     this.setup = this.setup.bind(this);
   }
-
+  
   setup(event){
     switch(event.keyCode){
       case 37: this.setState({x : this.state.x - 5,});
@@ -19,23 +20,20 @@ class Timer extends Component {
       case 40: this.setState({y : this.state.y + 5,});
         break;
     }
-    if(this.state.x === 250 && this.state.y === 250){
+    if(this.state.x === 250 && this.state.y === 250)
       document.removeEventListener("keydown", this.setup);
-      // this.interval();
-    }
+    this.interval();
   }
-  interval(clearSetInterval){
-    clearInterval(clearSetInterval);
+  interval(){
+    if(this.state.time === 0)
+      clearSetInterval = setInterval(()=>{this.setState({time : this.state.time + 1})}, 1000);
+    if(this.state.x === 250 && this.state.y === 250)
+      clearInterval(clearSetInterval);
   }
 
   moveBall(){
     if(this.state.time === 0){
-      // this.interval();
-      var clearSetInterval = setInterval(()=>{
-        this.setState({time : this.state.time + 1})
-        if(this.state.x === 250 && this.state.y === 250){
-          this.interval(clearSetInterval);
-      }}, 1000);
+      this.interval();
       document.addEventListener("keydown", this.setup);
     }
   };
