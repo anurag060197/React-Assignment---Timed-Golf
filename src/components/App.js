@@ -80,11 +80,15 @@ class Timer extends Component {
       case 40: this.setState({y : this.state.y + 5,});
         break;
     }
+  }
+
+  foo(){
     if(this.state.x === 250 && this.state.y === 250){
       document.removeEventListener("keydown", this.setup);
       clearInterval(this.state.clearSetInterval);
       console.log("clear");
     }  
+    return this.state.time;
   }
 
   moveBall(){
@@ -105,7 +109,7 @@ class Timer extends Component {
     return (
       <>
         <div className="ball" style={{left : this.state.x, top : this.state.y}}></div>
-        <div className="heading-timer">{this.state.time}</div>
+        <div className="heading-timer">{this.foo()}</div>
         {this.renderButtonOrHole()}
       </>
     );
