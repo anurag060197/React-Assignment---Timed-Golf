@@ -64,7 +64,7 @@ class Timer extends Component {
  
   constructor(props) {
     super(props);
-    this.state = { time: 0, x: 0, y: 0, clk: false, clearSetInterval: 0 };
+    this.state = { time: 0, x: 0, y: 0, clk: false, clearSetInterval: createRef() };
     this.moveBall = this.moveBall.bind(this);
     this.setup = this.setup.bind(this);
   }
@@ -83,6 +83,7 @@ class Timer extends Component {
     if(this.state.x === 250 && this.state.y === 250){
       document.removeEventListener("keydown", this.setup);
       clearInterval(this.state.clearSetInterval);
+      console.log("clear");
     }  
   }
 
