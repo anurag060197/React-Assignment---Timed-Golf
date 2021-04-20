@@ -1,7 +1,6 @@
 import React, { Component, createRef } from "react";
 import "../styles/App.css";
 
-let clearSetInterval = 0;
 class Timer extends Component {
   // constructor(props) {
   //   super(props);
@@ -65,7 +64,7 @@ class Timer extends Component {
  
   constructor(props) {
     super(props);
-    this.state = { time: 0, x: 0, y: 0, clk: false };
+    this.state = { time: 0, x: 0, y: 0, clk: false, clearSetInterval: 0 };
     this.moveBall = this.moveBall.bind(this);
     this.setup = this.setup.bind(this);
   }
@@ -83,20 +82,15 @@ class Timer extends Component {
     }
     if(this.state.x === 250 && this.state.y === 250){
       document.removeEventListener("keydown", this.setup);
-      this.interval();
-    }
-  }
-  interval(){
-    if(this.state.time === 0)
-      clearSetInterval = setInterval(()=>{this.setState({time : this.state.time + 1})}, 1000);
-    if(this.state.x === 250 && this.state.y === 250)
-      clearInterval(clearSetInterval);
+      clearInterval(this.state.clearSetInterval);
+    }  
   }
 
   moveBall(){
     this.setState({clk: true})
-    this.interval();
     document.addEventListener("keydown", this.setup);
+    let temp = setInterval(()=>{this.setState({time : this.state.time + 1})}, 1000);
+    this.setState({clearSetInterval: temp});
   };
 
   renderButtonOrHole(){
